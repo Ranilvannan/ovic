@@ -1,0 +1,37 @@
+<div class="block-title-6">
+    <h4 class="h5 border-primary border-2">
+        <span class="bg-primary text-white">Related articles</span>
+    </h4>
+</div>
+<div class="row">
+    <!-- slider -->
+    <div class="nav-slider-hover nav-inset-button nav-dots-top-right light-dots" data-flickity='{ "cellAlign": "left", "wrapAround": true, "adaptiveHeight": true, "prevNextButtons": true , "pageDots": true, "imagesLoaded": true }'>
+        {% for record in article.related_articles %}
+        <!-- item slider -->
+        <article class="col-12 col-sm-6 col-md-4 me-2">
+            <!--post start-->
+            <div class="col-12 mb-3 mb-lg-4">
+                <div class="card card-full hover-a">
+                    <!--thumbnail-->
+                    <div class="ratio_337-337 image-wrapper">
+                        <a href="single1.html">
+                        <img class="img-fluid lazy" src="../../assets/img/assets/lazy-empty.png" data-src="../../assets/img/337x337/img1.jpg" alt="Image description">
+                        </a>
+                    </div>
+                    <!-- title & date -->
+                    <div class="position-absolute p-3 b-0 w-100 bg-shadow">
+                        <a href="{{record.url}}">
+                            <h5 class="card-title h3 h4-sm h5-md text-light my-1">{{record.title}}</h5>
+                        </a>
+                        <div class="card-text my-2 dark small text-light">
+                            <time datetime="{{record.date}}">{{record.modified_date}}</time>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--end post -->
+        </article>
+        {% endfor %}
+    </div>
+    <!-- end owl slider -->
+</div>
