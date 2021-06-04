@@ -1,0 +1,411 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+<!--Content start-->
+<main id="content">
+    <div class="container">
+        <div class="row">
+            <!--breadcrumb-->
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb u-breadcrumb pt-3 px-0 mb-0 bg-transparent small">
+                        {% for bread in article.breadcrumbs %}
+                        <li class="breadcrumb-item"><a href="{{bread.url}}">{{bread.name}}</a></li>
+                        {% endfor %}
+                        <li class="breadcrumb-item active d-none d-md-block" aria-current="page">{{article.title}}</li>
+                    </ol>
+                </nav>
+            </div>
+            <!--end breadcrumb-->
+            <!--content-->
+            <div class="col-md-8">
+                <div class="post-title mb-4">
+                    <!-- title -->
+                    <h1 class="entry-title display-4 display-2-lg mt-2">{{article.title}}</h1>
+                    <!-- atribute -->
+                    <div class="post-atribute mb-3">
+                        <div class="my-3 text-muted small">
+                            <!--author-->
+                            <span class="d-none d-sm-inline">
+                            by <a class="fw-bold" href="../category/author.html">{{article.author}}</a>
+                            </span>
+                            <!--date-->
+                            <time class="ms-0 ms-sm-2 ms-md-3" datetime="2019-10-22">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-calendar-check me-1" viewBox="0 0 16 16">
+                                    <path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                </svg>
+                                {{article.last_updated}}
+                            </time>
+                            <!--comments-->
+                            <span class="ms-2 ms-md-3" title="5 comments">
+                                <a class="text-muted" href="#comments">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" class="bi bi-chat-left-dots me-1" viewBox="0 0 16 16">
+                                        <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                                        <path d="M5 6a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"/>
+                                    </svg>
+                                    {{article.comments_count}}
+                                </a>
+                            </span>
+                            <!--view-->
+                            <span class="ms-2 ms-md-3">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye me-1" viewBox="0 0 16 16">
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8zM1.173 8a13.133 13.133 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5c2.12 0 3.879 1.168 5.168 2.457A13.133 13.133 0 0 1 14.828 8c-.058.087-.122.183-.195.288-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5c-2.12 0-3.879-1.168-5.168-2.457A13.134 13.134 0 0 1 1.172 8z"/>
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5zM4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0z"/>
+                                </svg>
+                                {{article.views}} views
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- post content -->
+                <div class="post-content">
+                    <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary</p>
+                </div>
+                <!-- author -->
+                <div class="media author-box py-3">
+                    <div class="media-figure">
+                        <a href="../category/author.html"><img class="avatar-lg avatar-rounded border img-fluid" src="../../assets/img/avatar/avatar7.png" alt="author"></a>
+                    </div>
+                    <div class="ms-3 media-body">
+                        <!--name-->
+                        <h4 class="h5">
+                            <span class="fw-bold">{{article.author_info.name}}</span>
+                        </h4>
+                        <!--description-->
+                        <p>{{article.author_info.description}}</p>
+                        <!--social-->
+                        <div class="social mb-4">
+                            <!--facebook-->
+                            <span class="my-2 me-3">
+                                <a target="_blank" href="https://facebook.com" aria-label="Facebook" rel="noopener noreferrer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-facebook text-facebook" viewBox="0 0 16 16">
+                                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951z"/>
+                                    </svg>
+                                </a>
+                            </span>
+                            <!--twitter-->
+                            <span class="my-2 me-3">
+                                <a target="_blank" href="https://twitter.com" aria-label="Twitter" rel="noopener noreferrer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-twitter text-twitter" viewBox="0 0 16 16">
+                                        <path d="M5.026 15c6.038 0 9.341-5.003 9.341-9.334 0-.14 0-.282-.006-.422A6.685 6.685 0 0 0 16 3.542a6.658 6.658 0 0 1-1.889.518 3.301 3.301 0 0 0 1.447-1.817 6.533 6.533 0 0 1-2.087.793A3.286 3.286 0 0 0 7.875 6.03a9.325 9.325 0 0 1-6.767-3.429 3.289 3.289 0 0 0 1.018 4.382A3.323 3.323 0 0 1 .64 6.575v.045a3.288 3.288 0 0 0 2.632 3.218 3.203 3.203 0 0 1-.865.115 3.23 3.23 0 0 1-.614-.057 3.283 3.283 0 0 0 3.067 2.277A6.588 6.588 0 0 1 .78 13.58a6.32 6.32 0 0 1-.78-.045A9.344 9.344 0 0 0 5.026 15z"/>
+                                    </svg>
+                                </a>
+                            </span>
+                            <!--youtube-->
+                            <span class="my-2 me-3">
+                                <a target="_blank" href="https://youtube.com" aria-label="Youtube" rel="noopener noreferrer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="1.5rem" height="1.5rem" fill="currentColor" class="bi bi-youtube text-youtube" viewBox="0 0 16 16">
+                                        <path d="M8.051 1.999h.089c.822.003 4.987.033 6.11.335a2.01 2.01 0 0 1 1.415 1.42c.101.38.172.883.22 1.402l.01.104.022.26.008.104c.065.914.073 1.77.074 1.957v.075c-.001.194-.01 1.108-.082 2.06l-.008.105-.009.104c-.05.572-.124 1.14-.235 1.558a2.007 2.007 0 0 1-1.415 1.42c-1.16.312-5.569.334-6.18.335h-.142c-.309 0-1.587-.006-2.927-.052l-.17-.006-.087-.004-.171-.007-.171-.007c-1.11-.049-2.167-.128-2.654-.26a2.007 2.007 0 0 1-1.415-1.419c-.111-.417-.185-.986-.235-1.558L.09 9.82l-.008-.104A31.4 31.4 0 0 1 0 7.68v-.122C.002 7.343.01 6.6.064 5.78l.007-.103.003-.052.008-.104.022-.26.01-.104c.048-.519.119-1.023.22-1.402a2.007 2.007 0 0 1 1.415-1.42c.487-.13 1.544-.21 2.654-.26l.17-.007.172-.006.086-.003.171-.007A99.788 99.788 0 0 1 7.858 2h.193zM6.4 5.209v4.818l4.157-2.408L6.4 5.209z"/>
+                                    </svg>
+                                </a>
+                            </span>
+                            <!--instagram-->
+                            <span class="my-2 me-3">
+                                <a target="_blank" href="https://instagram.com" aria-label="Instagram" rel="noopener noreferrer">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="text-instagram" width="1.5rem" height="1.5rem" fill="currentColor" viewBox="0 0 512 512">
+                                        <path d="M349.33,69.33a93.62,93.62,0,0,1,93.34,93.34V349.33a93.62,93.62,0,0,1-93.34,93.34H162.67a93.62,93.62,0,0,1-93.34-93.34V162.67a93.62,93.62,0,0,1,93.34-93.34H349.33m0-37.33H162.67C90.8,32,32,90.8,32,162.67V349.33C32,421.2,90.8,480,162.67,480H349.33C421.2,480,480,421.2,480,349.33V162.67C480,90.8,421.2,32,349.33,32Z"/>
+                                        <path d="M377.33,162.67a28,28,0,1,1,28-28A27.94,27.94,0,0,1,377.33,162.67Z"/>
+                                        <path d="M256,181.33A74.67,74.67,0,1,1,181.33,256,74.75,74.75,0,0,1,256,181.33M256,144A112,112,0,1,0,368,256,112,112,0,0,0,256,144Z"/>
+                                    </svg>
+                                </a>
+                            </span>
+                            <!--end instagram-->
+                        </div>
+                        <!--end social-->
+                    </div>
+                </div>
+                <hr>
+                <!-- Previous and next article -->
+                <div class="prev-next-post pt-3 pb-5">
+                    <div class="row">
+                        <!-- Previous article -->
+                        <div class="col-12 col-md-6 prev-post-start">
+                            <span class="d-block text-muted mb-3">&#171; Previous article</span>
+                            <a href="{{article.previous.url}}">{{article.previous.name}}</a>
+                        </div>
+                        <!-- Next article -->
+                        <div class="col-12 col-md-6 next-post-end">
+                            <span class="d-block text-muted mb-3">Next article &#187;</span>
+                            <a href="{{article.next.name}}">{{article.next.name}}</a>
+                        </div>
+                    </div>
+                </div>
+                <!--Related post title-->
+                <div class="related-post mb-4">
+                    <div class="block-title-6">
+                        <h4 class="h5 border-primary border-2">
+                            <span class="bg-primary text-white">Related articles</span>
+                        </h4>
+                    </div>
+                    <div class="row">
+                        <!-- slider -->
+                        <div class="nav-slider-hover nav-inset-button nav-dots-top-right light-dots" data-flickity='{ "cellAlign": "left", "wrapAround": true, "adaptiveHeight": true, "prevNextButtons": true , "pageDots": true, "imagesLoaded": true }'>
+                            {% for record in article.related_articles %}
+                            <!-- item slider -->
+                            <article class="col-12 col-sm-6 col-md-4 me-2">
+                                <!--post start-->
+                                <div class="col-12 mb-3 mb-lg-4">
+                                    <div class="card card-full hover-a">
+                                        <!--thumbnail-->
+                                        <div class="ratio_337-337 image-wrapper">
+                                            <a href="single1.html">
+                                            <img class="img-fluid lazy" src="../../assets/img/assets/lazy-empty.png" data-src="../../assets/img/337x337/img1.jpg" alt="Image description">
+                                            </a>
+                                        </div>
+                                        <!-- title & date -->
+                                        <div class="position-absolute p-3 b-0 w-100 bg-shadow">
+                                            <a href="{{record.url}}">
+                                                <h5 class="card-title h3 h4-sm h5-md text-light my-1">{{record.title}}</h5>
+                                            </a>
+                                            <div class="card-text my-2 dark small text-light">
+                                                <time datetime="{{record.date}}">{{record.modified_date}}</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--end post -->
+                            </article>
+                            {% endfor %}
+                        </div>
+                        <!-- end owl slider -->
+                    </div>
+                </div>
+                <!--Comments-->
+                <div id="comments">
+                    <!--title-->
+                    <div class="block-title-6">
+                        <h4 class="h5 border-primary border-2">
+                            <span class="bg-primary text-white">5 Comments</span>
+                        </h4>
+                    </div>
+                    <!--comment list-->
+                    <ol class="comment-list">
+                        <li>
+                            <div class="user-comment u-hover">
+                                <footer>
+                                    <img class="avatar-md border img-fluid float-start me-3" src="../../assets/img/avatar/avatar1.png" alt="avatar">
+                                    <div class="title-comments">
+                                        <a class="authors" href="#" target="_blank">Jennifer Tan</a>
+                                        <span class="text-muted dates small">
+                                        <time datetime="2019-10-27">Oct 27, 2019 at 12:11 am</time>
+                                        </span>
+                                    </div>
+                                </footer>
+                                <div class="comment-content">
+                                    <p>News magazine bootstrap themes!</p>
+                                </div>
+                                <div class="btn-reply">
+                                    <a class="comment-reply" href="#comment-form">Reply</a>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="user-comment u-hover">
+                                <footer>
+                                    <img class="avatar-md border img-fluid float-start me-3" src="../../assets/img/avatar/avatar2.png" alt="avatar">
+                                    <div class="title-comments">
+                                        <a class="authors" href="#" target="_blank">Carlos vila</a>
+                                        <span class="text-muted dates small">
+                                        <time datetime="2019-10-27">Oct 27, 2019 at 15:11 am</time>
+                                        </span>
+                                    </div>
+                                </footer>
+                                <div class="comment-content">
+                                    <p>I like this themes, fast loading and look profesional</p>
+                                </div>
+                                <div class="btn-reply">
+                                    <a class="comment-reply" href="#comment-form">Reply</a>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled sub-comment">
+                                <li>
+                                    <div class="user-comment u-hover">
+                                        <footer>
+                                            <img class="avatar-md border img-fluid float-start me-3" src="../../assets/img/avatar/avatar1.png" alt="avatar">
+                                            <div class="title-comments">
+                                                <a class="authors" href="#" target="_blank">Jennifer Tan</a>
+                                                <span class="text-muted dates small">
+                                                <time datetime="2019-10-27">Oct 27, 2019 at 16:11 am</time>
+                                                </span>
+                                            </div>
+                                        </footer>
+                                        <div class="comment-content">
+                                            <p>Thank you Carlos!</p>
+                                        </div>
+                                        <div class="btn-reply">
+                                            <a class="comment-reply" href="#comment-form">Reply</a>
+                                        </div>
+                                    </div>
+                                    <ul class="list-unstyled sub-comment">
+                                        <li class="comment " id="comment-5">
+                                            <div class="user-comment u-hover">
+                                                <footer>
+                                                    <img class="avatar-md border img-fluid float-start me-3" src="../../assets/img/avatar/avatar2.png" alt="avatar">
+                                                    <div class="title-comments">
+                                                        <a class="authors" href="#" target="_blank">Carlos vila</a>
+                                                        <span class="text-muted dates small">
+                                                        <time datetime="2019-10-27">Oct 27, 2019 at 17:11 am</time>
+                                                        </span>
+                                                    </div>
+                                                </footer>
+                                                <div class="comment-content">
+                                                    <p>You're welcome!</p>
+                                                </div>
+                                                <div class="btn-reply">
+                                                    <a class="comment-reply" href="#comment-form">Reply</a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <div class="user-comment u-hover">
+                                <footer>
+                                    <img class="avatar-md border img-fluid float-start me-3" src="../../assets/img/avatar/avatar1.png" alt="avatar">
+                                    <div class="title-comments">
+                                        <a class="authors" href="#" target="_blank">Jennifer Tan</a>
+                                        <span class="text-muted dates small">
+                                        <time datetime="2019-10-27">Oct 27, 2019 at 17:11 am</time>
+                                        </span>
+                                    </div>
+                                </footer>
+                                <div class="comment-content">
+                                    <p>Please support me with give positive rating!</p>
+                                </div>
+                                <div class="btn-reply">
+                                    <a class="comment-reply" href="#comment-form">Reply</a>
+                                </div>
+                            </div>
+                            <ul class="list-unstyled sub-comment">
+                                <li>
+                                    <div class="user-comment u-hover">
+                                        <footer>
+                                            <img class="avatar-md border img-fluid float-start me-3" src="../../assets/img/avatar/avatar2.png" alt="avatar">
+                                            <div class="title-comments">
+                                                <a class="authors" href="#" target="_blank">Carlos vila</a>
+                                                <span class="text-muted dates small">
+                                                <time datetime="2019-10-27">Oct 27, 2019 at 16:15 am</time>
+                                                </span>
+                                            </div>
+                                        </footer>
+                                        <div class="comment-content">
+                                            <p>Yes Sure!</p>
+                                        </div>
+                                        <div class="btn-reply">
+                                            <a class="comment-reply" href="#comment-form">Reply</a>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <!--comment form-->
+                    <div id="comment-form" class="my-5">
+                        <h3 class="h6 h4-md">LEAVE A REPLY</h3>
+                        <p>Your email address will not be published</p>
+                        <div class="comment-form">
+                            <form class="needs-validation" action="single1.html" novalidate>
+                                <div class="mt-2"></div>
+                                <div class="mb-4">
+                                    <textarea aria-label="comment form" class="form-control" placeholder="Comment" rows="4" required></textarea>
+                                    <div class="invalid-feedback">Please insert your comment</div>
+                                </div>
+                                <div class="mb-4">
+                                    <input aria-label="name form" class="form-control" placeholder="Name" type="text" required>
+                                    <div class="invalid-feedback">Please insert your name</div>
+                                </div>
+                                <div class="mb-4">
+                                    <input aria-label="email form" class="form-control" placeholder="Email" type="text" required>
+                                    <div class="invalid-feedback">Please insert your email address</div>
+                                </div>
+                                <div class="mb-4">
+                                    <input aria-label="website form" class="form-control" placeholder="Website:" type="text">
+                                </div>
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input id="comment-cookies" class="form-check-input" name="comment-cookies" type="checkbox" value="yes">
+                                        <label for="comment-cookies" class="form-check-label">Save my name, email, and website in this browser for the next time I comment.</label>
+                                    </div>
+                                </div>
+                                <div class="mb-4">
+                                    <button type="submit" class="btn btn-primary">Post Comment</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- end content -->
+            <!-- start right column -->
+            <aside class="col-md-4 end-sidebar-lg">
+                <!--sticky-->
+                <div class="sticky">
+                    <!--Advertiser-->
+                    <aside class="widget">
+                        <div class="hover-a text-center">
+                            <!--title-->
+                            <div class="pb-2">
+                                <span class="text-mute small">- Advertisement -</span>
+                            </div>
+                            <!--content-->
+                            <a href="#" target="_blank">
+                            <img class="img-fluid bg-light" src="../../assets/img/ads/300-demo.png" alt="ads space">
+                            </a>
+                        </div>
+                        <div class="gap-15"></div>
+                    </aside>
+                    <!--end advertiser-->
+                    <!-- latest post -->
+                    <aside class="widget">
+                        <!--Block title-->
+                        <div class="block-title-4">
+                            <h4 class="h5 title-arrow">
+                                <span>Latest news</span>
+                            </h4>
+                        </div>
+                        <!--post small start-->
+                        <div class="small-post">
+                            <!--post list-->
+                            {% for record in article.latest_news %}
+                            <article class="card card-full hover-a mb-4">
+                                <div class="row">
+                                    <!--thumbnail-->
+                                    <div class="col-3 col-md-4 pe-2 pe-md-0">
+                                        <div class="ratio_110-77 image-wrapper">
+                                            <a href="#">
+                                            <img class="img-fluid lazy" src="../../assets/img/assets/lazy-empty.png" data-src="../../assets/img/110x77/img5.jpg" alt="Image description">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <!-- title & date -->
+                                    <div class="col-9 col-md-8">
+                                        <div class="card-body pt-0">
+                                            <h3 class="card-title h6 h5-sm h6-md">
+                                                <a href="{{record.url}}">{{record.title}}</a>
+                                            </h3>
+                                            <div class="card-text small text-muted">
+                                                <time datetime="{{record.date}}">{{record.modified_date}}</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            {% endfor %}
+                            <!--End post list-->
+                        </div>
+                        <!--end post small-->
+                        <div class="gap-0"></div>
+                    </aside>
+                    <!-- end latest post -->
+                </div>
+                <!--End sticky-->
+            </aside>
+            <!-- end right column -->
+        </div>
+    </div>
+</main>
+<!--End Content-->
+{% endblock %}
