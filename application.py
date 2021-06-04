@@ -1,4 +1,4 @@
-from flask import Flask, request, url_for, render_template, abort, send_from_directory
+from flask import Flask, request, url_for, render_template, abort, send_from_directory, jsonify
 from models import db
 
 app = Flask(__name__)
@@ -13,7 +13,7 @@ def custom_images(filename):
     return send_from_directory(path, filename)
 
 
-@app.route('/test')
+@app.route('/bdata')
 def index():
     return render_template('index.html')
 
@@ -62,3 +62,28 @@ def blog_page():
     return render_template('blog.html', article=article)
 
 
+@app.route('/prev_next_post_api')
+def prev_next_post_api():
+    article = {
+        "previous": {"name": "This is previous title", "url": "#"},
+        "next": {"name": "This is next title", "url": "#"}
+    }
+    return render_template('widgets/prev_next_post.html', article=article)
+
+
+@app.route('/related_post_api')
+def related_post_api():
+    related_articles = [
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+    ]
+
+    return render_template('widgets/related_post.html', related_articles=related_articles)
