@@ -63,7 +63,7 @@
             <!-- start right column -->
             <aside class="col-md-4 end-sidebar-lg">
                 <div class="sticky">
-                    <aside class="widget" id="advertisement"></aside>
+                    <aside class="widget" id="advertisement_post"></aside>
                     <aside class="widget" id="latest_post"></aside>
                 </div>
             </aside>
@@ -71,4 +71,9 @@
     </div>
 </main>
 <!--End Content-->
+{% endblock %}
+
+
+{% block body_script %}
+<script src="{{ url_for('static', filename='js/blog.js') }}"></script>
 {% endblock %}

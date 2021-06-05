@@ -13,13 +13,18 @@ def custom_images(filename):
     return send_from_directory(path, filename)
 
 
-@app.route('/bdata')
+@app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/')
-def blog_page():
+@app.route('/blog/<category>')
+def category_page(category):
+    return render_template('category_page.html')
+
+
+@app.route('/blog/<category>/<blog_url>')
+def blog_page(category, blog_url):
     print(app.root_path)
 
     article = {
@@ -40,40 +45,22 @@ def blog_page():
             {"name": "Home", "url": "#"},
             {"name": "Category", "url": "#"},
             {"name": "Operating System", "url": "#"}
-        ],
-        "previous": {"name": "Jacob deGrom Goes the Distance as Mets Top the Phillies", "url": "#"},
-        "next": {"name": "The 52 Places Traveler: Summer in France, in Two Very Different Ways", "url": "#"},
-        "latest_news": [
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"}
-        ],
-        "related_articles": [
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-            {"date": "2019-10-14", "modified_date": "Oct 14, 2019", "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
         ]
     }
-
 
     return render_template('blog.html', article=article)
 
 
-@app.route('/prev_next_post_api')
-def prev_next_post_api():
-    article = {
+def prev_next_article(post_url):
+    articles = {
         "previous": {"name": "This is previous title", "url": "#"},
         "next": {"name": "This is next title", "url": "#"}
     }
-    return render_template('widgets/prev_next_post.html', article=article)
+    return render_template('widgets/prev_next_post.html', articles=articles)
 
 
-@app.route('/related_post_api')
-def related_post_api():
-    related_articles = [
+def related_article(post_url):
+    articles = [
         {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
          "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
         {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
@@ -86,4 +73,52 @@ def related_post_api():
          "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
     ]
 
-    return render_template('widgets/related_post.html', related_articles=related_articles)
+    return render_template('widgets/related_post.html', articles=articles)
+
+
+def latest_article(post_url):
+    articles = [
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
+         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
+    ]
+
+    return render_template('widgets/latest_post.html', articles=articles)
+
+
+def advertisement_article(post_url):
+    return render_template('widgets/advertisement.html')
+
+
+def author_info(post_url):
+    info = {"name": "Ramesh Kumar S",
+            "description": "Programmer, Father, Husband, I design and develop Bootstrap template, founder of Bootstrap.News",
+        }
+    return render_template('widgets/author_box.html', info=info)
+
+
+@app.route('/api/<post_template>/<post_url>')
+def trigger_post_template(post_template, post_url):
+    article = None
+    if post_template == "prev_next":
+        article = prev_next_article(post_url)
+    elif post_template == "related":
+        article = related_article(post_url)
+    elif post_template == "latest":
+        article = latest_article(post_url)
+    elif post_template == "advertisement":
+        article = advertisement_article(post_url)
+    elif post_template == "author_info":
+        article = author_info(post_url)
+
+    if not article:
+        return "Not Found", 400
+
+    return article
