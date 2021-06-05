@@ -1,15 +1,8 @@
-function httpGet(theUrl)
-{
-    var xmlHttp = new XMLHttpRequest();
-    xmlHttp.open( "GET", theUrl, false ); // false for synchronous request
-    xmlHttp.send( null );
-    return xmlHttp.responseText;
-}
 
 
 document.addEventListener('DOMContentLoaded', function() {
     let b = window.location.origin
-    var theUrl = new URL('/prev_next_post_api', b);
+    var theUrl = new URL(path, b);
     data = httpGet(theUrl)
     document.getElementById("prev_next_post").innerHTML += data;
 }, false);
@@ -17,7 +10,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 document.addEventListener('DOMContentLoaded', function() {
     let b = window.location.origin
-    var theUrl = new URL('/related_post_api', b);
+    var theUrl = new URL('/api/related/test', b);
     data = httpGet(theUrl)
     document.getElementById("related_post").innerHTML += data;
 
@@ -30,3 +23,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
 }, false);
 
+
+document.addEventListener('DOMContentLoaded', function() {
+    let b = window.location.origin
+    var theUrl = new URL('/api/latest/test', b);
+    data = httpGet(theUrl)
+    document.getElementById("latest_post").innerHTML += data;
+}, false);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    let b = window.location.origin
+    var theUrl = new URL('/api/advertisement/test', b);
+    data = httpGet(theUrl)
+    document.getElementById("advertisement_post").innerHTML += data;
+}, false);
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    let b = window.location.origin
+    var theUrl = new URL('/api/author_info/test', b);
+    data = httpGet(theUrl)
+    document.getElementById("author_box").innerHTML += data;
+}, false);

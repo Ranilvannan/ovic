@@ -1,16 +1,12 @@
-<!--Block title-->
 <div class="block-title-4">
     <h4 class="h5 title-arrow">
         <span>Latest news</span>
     </h4>
 </div>
-<!--post small start-->
 <div class="small-post">
-    <!--post list-->
     {% for record in articles %}
     <article class="card card-full hover-a mb-4">
         <div class="row">
-            <!--thumbnail-->
             <div class="col-3 col-md-4 pe-2 pe-md-0">
                 <div class="ratio_110-77 image-wrapper">
                     <a href="#">
@@ -18,7 +14,6 @@
                     </a>
                 </div>
             </div>
-            <!-- title & date -->
             <div class="col-9 col-md-8">
                 <div class="card-body pt-0">
                     <h3 class="card-title h6 h5-sm h6-md">
@@ -32,7 +27,5 @@
         </div>
     </article>
     {% endfor %}
-    <!--End post list-->
 </div>
-<!--end post small-->
 <div class="gap-0"></div>
