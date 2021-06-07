@@ -1,10 +1,18 @@
 from flask import Flask, request, url_for, render_template, abort, send_from_directory, jsonify
-from models import db
+from blog_insert import BlogInsert
+import pymongo
 
 app = Flask(__name__)
 app.config.from_object('config.ProductionConfig')
-app.config['SECRET_KEY'] = 'you-will-never-guess'
-db.init_app(app)
+
+
+def blog_collect():
+    uri = app.config.get("MONGO_URI")
+    database = app.config.get("DATABASE")
+    blog = app.config.get("BLOG")
+    client = pymongo.MongoClient(uri)
+    db = client[database]
+    return db[blog]
 
 
 @app.route('/images/<path:filename>')
@@ -25,18 +33,15 @@ def category_page(category):
 
 @app.route('/blog/<category>/<blog_url>')
 def blog_page(category, blog_url):
-    print(app.root_path)
+    rec = Blog.query.one()
 
     article = {
-        "author": "Ramesh Kumar S",
+        "author": rec.author.name,
         "comments_count": 90,
-        "last_updated": "02 Feb 2021 10:33AM IST",
+        "last_updated": rec.date_of_publish,
         "views": 100,
-        "title": "5 Simple Tips to Help Vegetarian or Vegan Travelers Eat Well, Anywhere",
-        "content": """<p>Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et 
-                      Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a 
-                      treatise on the theory of ethics, very popular during the Renaissance. The first line of 
-                      Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.""",
+        "title": rec.name,
+        "content": rec.content,
         "author_info": {
             "name": "Ramesh Kumar S",
             "description": "Programmer, Father, Husband, I design and develop Bootstrap template, founder of Bootstrap.News",
@@ -122,3 +127,14 @@ def trigger_post_template(post_template, post_url):
         return "Not Found", 400
 
     return article
+
+
+@app.cli.command('blog_update')
+def blog_update():
+    path = app.config.get("IMPORT_PATH")
+    col = blog_collect()
+    params = "blog_id"
+    file_suffix = ".json"
+
+    bi = BlogInsert(path, col, params, file_suffix)
+    bi.trigger_import()

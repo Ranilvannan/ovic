@@ -4,10 +4,11 @@ class Config(object):
 
 
 class ProductionConfig(Config):
-    SQLALCHEMY_DATABASE_URI = "postgresql://localhost/ovic?user=ramesh&password=ramesh"
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    MONGO_URI = "mongodb://localhost:27017/ovic"
+    DATABASE = "blog"
+    BLOG = "technical_blog"
+    IMPORT_PATH = "/var/technical_blog/"
     CUSTOM_STATIC_PATH = "/var/images/"
-    ASSETS_PATH = "/var/images/"
 
 
 class DevelopmentConfig(Config):
