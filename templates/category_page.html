@@ -1,0 +1,107 @@
+{% extends "base.html" %}
+
+{% block body_content %}
+<!--Content start-->
+<main id="content">
+  <div class="pb-2 mb-2 mb-md-4">
+    <!--Container-->
+    <div class="container">
+      <div class="row">
+        <!--breadcrumb-->
+        <div class="col-12">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb u-breadcrumb pt-3 px-0 mb-0 bg-transparent small">
+              <li class="breadcrumb-item"><a href="../home/index.html">Home</a></li>
+              <li class="breadcrumb-item"><a href="category2.html">Category</a></li>
+              <li class="breadcrumb-item active">{{ record.category_name }}</li>
+            </ol>
+          </nav>
+        </div>
+        <!--end breadcrumb-->
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="row">
+      <!--left column-->
+      <div class="col-md-8">
+        <!-- block start -->
+        <div class="block-area">
+          <div class="border-bottom-last-0 first-pt-0">
+            <!--post start-->
+              {% for record in articles %}
+            <article class="card card-full hover-a py-4">
+              <div class="row">
+                <div class="col-sm-6 col-md-12 col-lg-6">
+                  <!--thumbnail-->
+                  <div class="ratio_360-202 image-wrapper">
+                    <a href="#">
+                      <img class="img-fluid lazy" src="../../assets/img/assets/lazy-empty.png" data-src="{{ record.image }}" alt="Image description">
+                    </a>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-md-12 col-lg-6">
+                  <div class="card-body pt-3 pt-sm-0 pt-md-3 pt-lg-0">
+                    <!--title-->
+                    <h3 class="card-title h2 h3-sm h2-md">
+                      <a href="#">{{ record.name }}</a>
+                    </h3>
+                    <!--author and date-->
+                    <div class="card-text mb-2 text-muted small">
+                      <span class="d-none d-sm-inline me-1">
+                        <a class="fw-bold" href="{{ record.author_url }}">{{ record.author_name }}</a>
+                      </span>
+                      <time datetime="{{ record.date_us_format }}">{{ record.date_read_format }}</time>
+                    </div>
+                    <!--description-->
+                    <p class="card-text">{{ record.preview }}</p>
+                  </div>
+                </div>
+              </div>
+            </article>
+              {% endfor %}
+          </div>
+        </div>
+        <!-- End block -->
+
+        <!--Pagination-->
+        <div class="clearfix my-4">
+          <nav class="float-start" aria-label="Page navigation example">
+            <!--page number-->
+            <ul class="pagination">
+              <li class="page-item active"><span class="page-link">1</span></li>
+              <li class="page-item"><a class="page-link" href="category2.html">2</a></li>
+              <li class="page-item"><a class="page-link" href="category3.html">3</a></li>
+              <li class="page-item"><a class="page-link" href="category2.html">4</a></li>
+              <li class="page-item"><span class="page-link disabled">....</span></li>
+              <li class="page-item"><a class="page-link" href="category3.html">12</a></li>
+              <li class="page-item">
+                <a class="page-link" href="category2.html" aria-label="Next" title="Next page">
+                  <span aria-hidden="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1.2rem" height="1.2rem" fill="currentColor" viewBox="0 0 512 512"><polyline points="184 112 328 256 184 400" style="fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"/></svg>
+                  </span>
+                  <span class="visually-hidden">Next</span>
+                </a>
+              </li>
+            </ul>
+            <!--end page number-->
+          </nav>
+        </div>
+        <!--end pagination-->
+      </div>
+      <!--end content-->
+
+      <!-- start right column -->
+      <aside class="col-md-4 end-sidebar-lg">
+        <!--sticky-->
+        <div class="sticky">
+
+        </div>
+        <!--End sticky-->
+      </aside>
+      <!-- end right column -->
+    </div>
+  </div>
+</main>
+<!--End Content-->
+{% endblock %}

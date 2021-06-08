@@ -1,9 +1,17 @@
 from flask import Flask, request, url_for, render_template, abort, send_from_directory, jsonify
 from blog_insert import BlogInsert
+from flask_paginate import Pagination, get_page_parameter
 import pymongo
 
 app = Flask(__name__)
 app.config.from_object('config.ProductionConfig')
+PER_PAGE = 5
+
+
+@app.route('/test')
+def test_page():
+    pagination = Pagination(page=1, total=200, search=False, record_name='users', css_framework='bootstrap4')
+    return render_template('test_page.html', pagination=pagination)
 
 
 def blog_collect():
@@ -22,111 +30,68 @@ def custom_images(filename):
 
 
 @app.route('/')
-def index():
-    return render_template('index.html')
+def home_page():
+    blog_col = blog_collect()
+
+    total_story = story_col.find(data_dict).count(True)
+    pagination = Pagination(total_count=total_story, page=page, per_page=PER_PAGE)
+
+    # No story found
+    if not(1 <= page <= pagination.total_page):
+        abort(404)
+
+    story_list = blog_col.find(data_dict)\
+        .sort("story_id", -1)\
+        .skip(PER_PAGE*(page-1))\
+        .limit(PER_PAGE)
+
+    category_list = category_col.find()
+    ref_url = "{0}".format(request.host_url)
+
+    return render_template('home_page.html',
+                           records=story_list,
+                           pagination=pagination,
+                           category_list=category_list,
+                           ref_url=ref_url)
 
 
-@app.route('/blog/<category>')
-def category_page(category):
-    return render_template('category_page.html')
+@app.route('/blog/<category_url>/')
+def category_page(category_url):
+    blog_col = blog_collect()
+    page = request.args.get("page", type=int, default=1)
+
+    data_dict = {"variety": "technical_blog", "category_url": category_url}
+    total_story = blog_col.find(data_dict).count(True)
+    pagination = Pagination(total_count=total_story, page=page, per_page=PER_PAGE)
+
+    # No Blog found
+    if not (1 <= page <= pagination.total_page):
+        abort(404)
+
+    articles = blog_col.find(data_dict)\
+        .sort("blog_id", -1)\
+        .skip(PER_PAGE*(page-1))\
+        .limit(PER_PAGE)
+
+    return render_template('category_page.html',
+                           articles=articles,
+                           pagination=pagination)
 
 
-@app.route('/blog/<category>/<blog_url>')
-def blog_page(category, blog_url):
-    rec = Blog.query.one()
-
-    article = {
-        "author": rec.author.name,
-        "comments_count": 90,
-        "last_updated": rec.date_of_publish,
-        "views": 100,
-        "title": rec.name,
-        "content": rec.content,
-        "author_info": {
-            "name": "Ramesh Kumar S",
-            "description": "Programmer, Father, Husband, I design and develop Bootstrap template, founder of Bootstrap.News",
-        },
-        "breadcrumbs": [
-            {"name": "Home", "url": "#"},
-            {"name": "Category", "url": "#"},
-            {"name": "Operating System", "url": "#"}
-        ]
-    }
-
-    return render_template('blog.html', article=article)
-
-
-def prev_next_article(post_url):
-    articles = {
-        "previous": {"name": "This is previous title", "url": "#"},
-        "next": {"name": "This is next title", "url": "#"}
-    }
-    return render_template('widgets/prev_next_post.html', articles=articles)
-
-
-def related_article(post_url):
-    articles = [
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-    ]
-
-    return render_template('widgets/related_post.html', articles=articles)
-
-
-def latest_article(post_url):
-    articles = [
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-        {"date": "2019-10-14", "modified_date": "Oct 14, 2019",
-         "title": "This U.S. Airline Has More Legroom Than Any Other", "url": "#"},
-    ]
-
-    return render_template('widgets/latest_post.html', articles=articles)
-
-
-def advertisement_article(post_url):
-    return render_template('widgets/advertisement.html')
-
-
-def author_info(post_url):
-    info = {"name": "Ramesh Kumar S",
-            "description": "Programmer, Father, Husband, I design and develop Bootstrap template, founder of Bootstrap.News",
-        }
-    return render_template('widgets/author_box.html', info=info)
-
-
-@app.route('/api/<post_template>/<post_url>')
-def trigger_post_template(post_template, post_url):
-    article = None
-    if post_template == "prev_next":
-        article = prev_next_article(post_url)
-    elif post_template == "related":
-        article = related_article(post_url)
-    elif post_template == "latest":
-        article = latest_article(post_url)
-    elif post_template == "advertisement":
-        article = advertisement_article(post_url)
-    elif post_template == "author_info":
-        article = author_info(post_url)
+@app.route('/blog/<category_url>/<blog_url>')
+def blog_page(category_url, blog_url):
+    blog_col = blog_collect()
+    article = blog_col.find_one({"blog_url": blog_url})
 
     if not article:
-        return "Not Found", 400
+        abort(404)
 
-    return article
+    return render_template('blog_page.html', article=article)
+
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html', title='404'), 404
 
 
 @app.cli.command('blog_update')
