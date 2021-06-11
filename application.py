@@ -52,7 +52,7 @@ def home_page():
 
     # No Blog found
     if not (1 <= page <= pagination.total_pages):
-        return render_template('no_result.html')
+        return render_template('public/no_result.html')
 
     articles = blog_col.find(data_dict) \
         .sort("blog_id", -1) \
@@ -79,7 +79,7 @@ def category_page(category_url=None):
 
     # No Blog found
     if not (1 <= page <= pagination.total_pages):
-        return render_template('no_result.html')
+        return render_template('public/no_result.html')
 
     articles = blog_col.find(data_dict)\
         .sort("blog_id", -1)\
@@ -124,7 +124,7 @@ def sitemap_page():
         }
         dynamic_urls.append(url)
 
-    xml_sitemap = render_template("sitemap.xml", dynamic_urls=dynamic_urls, host_base=host_base)
+    xml_sitemap = render_template("public/sitemap.xml", dynamic_urls=dynamic_urls, host_base=host_base)
     response = make_response(xml_sitemap)
     response.headers["Content-Type"] = "application/xml"
 
@@ -133,7 +133,7 @@ def sitemap_page():
 
 @app.errorhandler(404)
 def page_not_found(error):
-    return render_template('404.html', title='404'), 404
+    return render_template('public/404.html', title='404'), 404
 
 
 @app.cli.command('blog_update')
