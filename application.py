@@ -1,8 +1,10 @@
-from flask import Flask, request, url_for, render_template, abort, send_from_directory, jsonify
+from flask import Flask, request, url_for, render_template, abort, send_from_directory, jsonify, make_response
 from blog_insert import BlogInsert
 from flask_paginate import Pagination, get_page_parameter
 import pymongo
 import os
+from datetime import datetime
+from urllib.parse import urlparse
 
 app = Flask(__name__)
 app.config.from_object('config.ProductionConfig')
@@ -98,6 +100,35 @@ def blog_page(category_url, blog_url):
         abort(404)
 
     return render_template('blog_page.html', article=article)
+
+
+@app.route("/sitemap.xml")
+def sitemap_page():
+    host_components = urlparse(request.host_url)
+    host_base = host_components.scheme + "://" + host_components.netloc
+    dynamic_urls = list()
+
+    home_page = {"loc": host_base,
+                 "lastmod": datetime.now().strftime("%Y-%m-%dT%H:%M:%SZ")}
+    dynamic_urls.append(home_page)
+
+    # Dynamic routes with dynamic content
+    blog_col = blog_collect()
+    data_dict = {"blog_code": app.config['BLOG_CODE']}
+    articles = blog_col.find(data_dict)
+
+    for article in articles:
+        url = {
+            "loc": f"{host_base}/category/{article.category_url}/{article.url}",
+            "lastmod": article.date_lastmod
+        }
+        dynamic_urls.append(url)
+
+    xml_sitemap = render_template("sitemap.xml", dynamic_urls=dynamic_urls, host_base=host_base)
+    response = make_response(xml_sitemap)
+    response.headers["Content-Type"] = "application/xml"
+
+    return response
 
 
 @app.errorhandler(404)
