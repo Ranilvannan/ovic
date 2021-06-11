@@ -50,7 +50,7 @@ def home_page():
 
     # No Blog found
     if not (1 <= page <= pagination.total_pages):
-        abort(404)
+        return render_template('no_result.html')
 
     articles = blog_col.find(data_dict) \
         .sort("blog_id", -1) \
@@ -62,18 +62,22 @@ def home_page():
                            pagination=pagination)
 
 
-@app.route('/blog/<category_url>/')
-def category_page(category_url):
+@app.route('/category/<category_url>/')
+def category_page(category_url=None):
     blog_col = blog_collect()
     page = request.args.get("page", type=int, default=1)
 
-    data_dict = {"blog_code": app.config['BLOG_CODE'], "category_url": category_url}
+    if category_url:
+        data_dict = {"blog_code": app.config['BLOG_CODE'], "category_url": category_url}
+    else:
+        data_dict = {"blog_code": app.config['BLOG_CODE']}
+
     total_story = blog_col.find(data_dict).count(True)
     pagination = Pagination(page=page, total=total_story, search=False, record_name='users', css_framework='bootstrap4')
 
     # No Blog found
     if not (1 <= page <= pagination.total_pages):
-        abort(404)
+        return render_template('no_result.html')
 
     articles = blog_col.find(data_dict)\
         .sort("blog_id", -1)\
@@ -85,7 +89,7 @@ def category_page(category_url):
                            pagination=pagination)
 
 
-@app.route('/blog/<category_url>/<blog_url>')
+@app.route('/category/<category_url>/<blog_url>')
 def blog_page(category_url, blog_url):
     blog_col = blog_collect()
     article = blog_col.find_one({"blog_url": blog_url})

@@ -48,19 +48,19 @@
 		<div class="collapse navbar-collapse" id="NavbarSupportedContent">
 		<ul class="navbar-nav">
 			<li class="nav-item">
-      			<a class="nav-link altros" href="#">Home</a>
+      			<a class="nav-link altros" href="/">Home</a>
     		</li>
 			<li class="nav-item">
-      			<a class="nav-link altros" href="#">Operating System</a>
+      			<a class="nav-link altros" href="{{ url_for('category_page', category_url='operating_system') }}">Operating System</a>
     		</li>
 			<li class="nav-item">
-      			<a class="nav-link altros" href="#">Linux</a>
+      			<a class="nav-link altros" href="{{ url_for('category_page', category_url='foss') }}">FOSS</a>
     		</li>
 			<li class="nav-item">
-      			<a class="nav-link altros" href="#">Programming Language</a>
+      			<a class="nav-link altros" href="{{ url_for('category_page', category_url='programming_language') }}">Programming Language</a>
     		</li>
 			<li class="nav-item">
-      			<a class="nav-link altros" href="#">Interview Question</a>
+      			<a class="nav-link altros" href="{{ url_for('category_page', category_url='interview_questions') }}">Interview Question</a>
     		</li>
 		</ul>
 	</div>
