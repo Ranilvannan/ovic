@@ -59,8 +59,13 @@ def home_page():
         .skip(PER_PAGE * (page - 1)) \
         .limit(PER_PAGE)
 
+    header_info = {"title": "Title",
+                   "description": "Description",
+                   "keywords": "Keywords"}
+
     return render_template('home_page.html',
                            articles=articles,
+                           header_info=header_info,
                            pagination=pagination)
 
 
@@ -87,8 +92,13 @@ def category_page(category_url=None):
         .skip(PER_PAGE*(page-1))\
         .limit(PER_PAGE)
 
+    header_info = {"title": "Title",
+                   "description": "Description",
+                   "keywords": "Keywords"}
+
     return render_template('category_page.html',
                            articles=articles,
+                           header_info=header_info,
                            pagination=pagination)
 
 

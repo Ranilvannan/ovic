@@ -1,5 +1,12 @@
 {% extends "public/base.html" %}
 
+{% block head_metadata %}
+  <title>{{ header_info.title }}</title>
+  <meta name="description" content="{{ header_info.description }}">
+  <meta name="keywords" content="{{ header_info.keywords }}">
+{% endblock %}
+
+
 {% block body_content %}
 <!--Content start-->
 <main id="content">
@@ -11,7 +18,6 @@
         <div class="col-12">
           <nav aria-label="breadcrumb">
             <ol class="breadcrumb u-breadcrumb pt-3 px-0 mb-0 bg-transparent small">
-              <li class="breadcrumb-item"><a href="../home/index.html">Home</a></li>
               <li class="breadcrumb-item"><a href="category2.html">Category</a></li>
               <li class="breadcrumb-item active">Cnnkn</li>
             </ol>

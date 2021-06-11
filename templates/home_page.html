@@ -1,5 +1,12 @@
 {% extends "public/base.html" %}
 
+{% block head_metadata %}
+  <title>{{ header_info.title }}</title>
+  <meta name="description" content="{{ header_info.description }}">
+  <meta name="keywords" content="{{ header_info.keywords }}">
+{% endblock %}
+
+
 {% block body_content %}
 <!--Content start-->
 <main id="content">

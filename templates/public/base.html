@@ -5,9 +5,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <!-- Title -->
-        <title>Homepage - BootNews Magazine</title>
-        <meta name="description" content="Bootnews Bootstrap 5 News Magazine Template">
-        <meta name="keywords" content="bootstrap news, bootstrap portal, bootstrap blog, bootstrap magazine">
+        {% block head_metadata %}{% endblock %}
         <!--App manifest-->
         <link rel="manifest" href="{{ url_for('static', filename='assets/js/manifest.json') }}">
         <!--Favicon-->
