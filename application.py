@@ -65,6 +65,7 @@ def home_page():
 
 
 @app.route('/category/<category_url>/')
+@app.route('/category/<category_url>')
 def category_page(category_url=None):
     blog_col = blog_collect()
     page = request.args.get("page", type=int, default=1)
@@ -91,6 +92,7 @@ def category_page(category_url=None):
                            pagination=pagination)
 
 
+@app.route('/category/<category_url>/<blog_url>/')
 @app.route('/category/<category_url>/<blog_url>')
 def blog_page(category_url, blog_url):
     blog_col = blog_collect()
