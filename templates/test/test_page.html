@@ -1,0 +1,129 @@
+{% extends "public/base.html" %}
+
+{% block body_content %}
+<!--Content start-->
+<main id="content">
+    <div class="container">
+        <div class="row">
+            <!--breadcrumb-->
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb u-breadcrumb pt-3 px-0 mb-0 bg-transparent small">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="#">{{ article.category_name }}</a></li>
+                        <li class="breadcrumb-item active d-none d-md-block" aria-current="page">{{article.name}}</li>
+                    </ol>
+                </nav>
+            </div>
+            <!--end breadcrumb-->
+            <!--content-->
+            <div class="col-md-8">
+                <div class="post-title mb-4">
+                    <!-- title -->
+                    <h1 class="entry-title display-4 display-2-lg mt-2">{{article.name}}</h1>
+                    <!-- atribute -->
+                    <div class="post-atribute mb-3">
+                        <div class="my-3 text-muted small">
+                            <!--author-->
+                            <span class="d-none d-sm-inline">
+                            by <a class="fw-bold" href="../category/author.html">{{article.author_name}}</a>
+                            </span>
+                            <!--date-->
+                            <time class="ms-0 ms-sm-2 ms-md-3" datetime="2019-10-22">
+                                <img src="./static/img/calendar.svg" width="16" height="16"/>
+                                {{article.date_read_format}}
+                            </time>
+                            <!--comments-->
+                            <span class="ms-2 ms-md-3" title="5 comments">
+                                <a class="text-muted" href="#comments">
+                                    <img src="./static/img/comments.svg" width="16" height="16"/>
+                                    {{article.comments_count}}
+                                </a>
+                            </span>
+                            <!--view-->
+                            <span class="ms-2 ms-md-3">
+                                <img src="./static/img/views.svg" width="16" height="16"/>
+                                {{article.views_count}} views
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <!-- post content -->
+                <div class="post-content">
+                    {% include "test/test_content.html" %}
+                </div>
+                <!-- End content -->
+                <div class="media author-box py-3">
+                    <div class="media-figure">
+                        <a href="../category/author.html">
+                            <img class="avatar-lg avatar-rounded border img-fluid" src="../../assets/img/avatar/avatar7.png" alt="author">
+                        </a>
+                    </div>
+                    <div class="ms-3 media-body">
+                        <h4 class="h5">
+                            <span class="fw-bold">{{ article.author_name }}</span>
+                        </h4>
+                        <p>{{ article.author_email }}</p>
+                        <p>{{ article.author_description }}</p>
+                    </div>
+                </div>
+                <div class="prev-next-post pt-3 pb-5">
+                    <div class="row">
+                        <div class="col-12 col-md-6 prev-post-start">
+                            <span class="d-block text-muted mb-3">&#171; Previous article</span>
+                            <a href="{{ article.previous_url }}">{{ article.previous_name }}</a>
+                        </div>
+                        <div class="col-12 col-md-6 next-post-end">
+                            <span class="d-block text-muted mb-3">Next article &#187;</span>
+                            <a href="{{ article.next_name }}">{{ article.next_name }}</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="related-post mb-4">
+                    <div class="block-title-6">
+                        <h4 class="h5 border-primary border-2">
+                            <span class="bg-primary text-white">Related articles</span>
+                        </h4>
+                    </div>
+                    <div class="row">
+                        <div class="nav-slider-hover nav-inset-button nav-dots-top-right light-dots" data-flickity='{ "cellAlign": "left", "wrapAround": true, "adaptiveHeight": true, "prevNextButtons": true , "pageDots": true, "imagesLoaded": true }'>
+                            {% if related_articles %}
+                            {% for record in related_articles %}
+                            <article class="col-12 col-sm-6 col-md-4 me-2">
+                                <div class="col-12 mb-3 mb-lg-4">
+                                    <div class="card card-full hover-a">
+                                        <div class="ratio_337-337 image-wrapper">
+                                            <a href="single1.html">
+                                            <img class="img-fluid lazy" src="../../assets/img/assets/lazy-empty.png" data-src="../../assets/img/337x337/img1.jpg" alt="Image description">
+                                            </a>
+                                        </div>
+                                        <div class="position-absolute p-3 b-0 w-100 bg-shadow">
+                                            <a href="{{ record.url }}">
+                                                <h5 class="card-title h3 h4-sm h5-md text-light my-1">{{ record.name }}</h5>
+                                            </a>
+                                            <div class="card-text my-2 dark small text-light">
+                                                <time datetime="{{ record.date_us_format }}">{{ record.date_read_format }}</time>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                            {% endfor %}
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div id="comments"></div>
+            </div>
+            <!-- end content -->
+            <!-- start right column -->
+            <aside class="col-md-4 end-sidebar-lg">
+                <div class="sticky">
+
+                </div>
+            </aside>
+        </div>
+    </div>
+</main>
+<!--End Content-->
+{% endblock %}

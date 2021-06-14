@@ -5,6 +5,7 @@ import pymongo
 import os
 from datetime import datetime
 from urllib.parse import urlparse
+from dummy_article import TObject
 
 app = Flask(__name__)
 app.config.from_object('config.ProductionConfig')
@@ -13,9 +14,18 @@ PER_PAGE = 5
 
 @app.route('/test')
 def test_page():
-    pagination = Pagination(page=1, total=200, search=False, record_name='users', css_framework='bootstrap4')
-    print(pagination.links)
-    return render_template('test_page.html', pagination=pagination)
+    data = {
+        "category_name": "Category Name",
+        "name": "Category Name",
+        "date_read_format": "Category Name",
+        "comments_count": "Category Name",
+        "views_count": "Category Name",
+        "author_name": "Category Name",
+        "author_email": "Category Name",
+        "author_description": "Category Name",
+    }
+    article = TObject(data)
+    return render_template('test/test_page.html', article=article)
 
 
 def blog_collect():

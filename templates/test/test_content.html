@@ -1,0 +1,28 @@
+{% for item in items %}
+    <article class="col-12 mb-2 mb-lg-6">
+        {% if item.gallery_ids %}
+        <div class="nav-slider-hover nav-inset-button nav-dots-top-right light-dots" data-flickity='{ "cellAlign": "left", "wrapAround": true, "adaptiveHeight": true, "prevNextButtons": true , "pageDots": true, "imagesLoaded": true }'>
+            <!-- item slider -->
+            {% for gallery in item.gallery_ids %}
+            <div class="col-12 col-sm-6 col-md-6 me-2">
+                <!--post start-->
+                <div class="col-12 mb-2 mb-lg-4">
+                    <div class="card card-full hover-a">
+                        <!--thumbnail-->
+                        <div class="ratio_360-202 image-wrapper">
+                            <a href="single1.html">
+                            <img class="img-fluid lazy" src="{{ url_for('static', filename='assets/img/assets/lazy-empty.png') }}" data-src="{{ url_for('custom_images', filename=gallery.image_file) }}" alt="Image description">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!--end post -->
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <h3><strong>{{ item.name }}</strong></h3>
+        <p>{{ item.content }}</p>
+
+    </article>
+{% endfor %}
