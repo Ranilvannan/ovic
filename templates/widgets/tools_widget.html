@@ -11,7 +11,7 @@
                         <!--thumbnail-->
                         <div class="ratio_360-202 image-wrapper">
                             <a href="single1.html">
-                            <img class="img-fluid lazy" src="{{ url_for('static', filename='assets/img/assets/lazy-empty.png') }}" data-src="{{ url_for('custom_images', filename=gallery.image_file) }}" alt="Image description">
+                            <img class="img-fluid lazy" src="/static/assets/img/assets/lazy-empty.png" data-src="/images/{{ gallery.file_name }}" alt="{{ gallery.description }}">
                             </a>
                         </div>
                     </div>
