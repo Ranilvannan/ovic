@@ -6,10 +6,11 @@ class Config(object):
 class ProductionConfig(Config):
     MONGO_URI = "mongodb://localhost:27017/ovic"
     MONGO_DATABASE = "ovic"
-    MONGO_TABLE = "technical_blog"
-    BLOG_CODE = "TECHBLOG"
+    BLOG_CODE = "TECH"
     IMPORT_PATH = "/var/technical_blog/"
     CUSTOM_STATIC_PATH = "/var/images/"
+    MONGO_BLOG_TABLE = "technical"
+    MONGO_GALLERY_TABLE = "gallery"
 
 
 class DevelopmentConfig(Config):

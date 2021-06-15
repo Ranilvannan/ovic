@@ -31,7 +31,16 @@ def test_page():
 def blog_collect():
     uri = app.config.get("MONGO_URI")
     database = app.config.get("MONGO_DATABASE")
-    table = app.config.get("MONGO_TABLE")
+    table = app.config.get("MONGO_BLOG_TABLE")
+    client = pymongo.MongoClient(uri)
+    db = client[database]
+    return db[table]
+
+
+def gallery_collect():
+    uri = app.config.get("MONGO_URI")
+    database = app.config.get("MONGO_DATABASE")
+    table = app.config.get("MONGO_GALLERY_TABLE")
     client = pymongo.MongoClient(uri)
     db = client[database]
     return db[table]
@@ -41,13 +50,13 @@ def blog_collect():
 def custom_images(filename):
     path = app.config['CUSTOM_STATIC_PATH']
 
-    blog_col = blog_collect()
-    article = blog_col.find_one({"image_file": filename})
+    gallery_col = gallery_collect()
+    gallery = gallery_col.find_one({"filename": filename})
 
-    if not article:
+    if not gallery:
         abort(404)
 
-    image_path = os.path.join(path, article["image_file_path"])
+    image_path = os.path.join(path, gallery["filepath"])
     return send_from_directory(image_path, filename)
 
 
@@ -116,7 +125,7 @@ def category_page(category_url=None):
 @app.route('/category/<category_url>/<blog_url>')
 def blog_page(category_url, blog_url):
     blog_col = blog_collect()
-    article = blog_col.find_one({"blog_url": blog_url})
+    article = blog_col.find_one({"url": blog_url})
 
     if not article:
         abort(404)
@@ -163,7 +172,18 @@ def blog_update():
     path = app.config.get("IMPORT_PATH")
     col = blog_collect()
     params = "blog_id"
-    file_suffix = ".json"
+    file_suffix = "tech.json"
+
+    bi = BlogInsert(path, col, params, file_suffix)
+    bi.trigger_import()
+
+
+@app.cli.command('gallery_update')
+def gallery_update():
+    path = app.config.get("IMPORT_PATH")
+    col = gallery_collect()
+    params = "gallery_id"
+    file_suffix = "gallery.json"
 
     bi = BlogInsert(path, col, params, file_suffix)
     bi.trigger_import()
