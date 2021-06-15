@@ -441,7 +441,7 @@
   sub_dropdown_js();
   myMobile();
   myOpen();
-  myScrollUp();
+  //myScrollUp();
   mySuggestion();
   myCloseSuggestion();
   myLazyload();

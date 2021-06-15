@@ -10,7 +10,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb u-breadcrumb pt-3 px-0 mb-0 bg-transparent small">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="#">{{ article.category_name }}</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('category_page', category_url=article.category_url) }}">{{ article.category_name }}</a></li>
                         <li class="breadcrumb-item active d-none d-md-block" aria-current="page">{{article.name}}</li>
                     </ol>
                 </nav>
@@ -30,19 +30,19 @@
                             </span>
                             <!--date-->
                             <time class="ms-0 ms-sm-2 ms-md-3" datetime="2019-10-22">
-                                <img src="./static/img/calendar.svg" width="16" height="16"/>
+                                <img src="{{ url_for('static', filename='img/calendar.svg') }}" width="16" height="16"/>
                                 {{article.date_read_format}}
                             </time>
                             <!--comments-->
                             <span class="ms-2 ms-md-3" title="5 comments">
                                 <a class="text-muted" href="#comments">
-                                    <img src="./static/img/comments.svg" width="16" height="16"/>
+                                    <img src="{{ url_for('static', filename='img/comments.svg') }}" width="16" height="16"/>
                                     {{article.comments_count}}
                                 </a>
                             </span>
                             <!--view-->
                             <span class="ms-2 ms-md-3">
-                                <img src="./static/img/views.svg" width="16" height="16"/>
+                                <img src="{{ url_for('static', filename='img/views.svg') }}" width="16" height="16"/>
                                 {{article.views_count}} views
                             </span>
                         </div>
@@ -86,7 +86,7 @@
                         </h4>
                     </div>
                     <div class="row">
-                        <div class="nav-slider-hover nav-inset-button nav-dots-top-right light-dots" data-flickity='{ "cellAlign": "left", "wrapAround": true, "adaptiveHeight": true, "prevNextButtons": true , "pageDots": true, "imagesLoaded": true }'>
+                        <div class="nav-slider-hover nav-inset-button nav-dots-top-right light-dots" data-flickity='{ "cellAlign": "left", "wrapAround": true, "adaptiveHeight": true, "prevNextButtons": true , "pageDots": true, "imagesLoaded": true, "autoplay": true }'>
                             {% if article.related_blogs %}
                             {% for record in article.related_blogs %}
                             <article class="col-12 col-sm-6 col-md-4 me-2">
@@ -94,7 +94,7 @@
                                     <div class="card card-full hover-a">
                                         <div class="ratio_337-337 image-wrapper">
                                             <a href="{{ url_for('blog_page', category_url=record.category_url, blog_url=record.url) }}">
-                                            <img class="img-fluid lazy" src="../../assets/img/assets/lazy-empty.png" data-src="{{ url_for('custom_images', filename=record.image_filename) }}" alt="{{ record.image_description }}">
+                                            <img class="img-fluid lazy" src="{{ url_for('static', filename='assets/img/assets/lazy-empty.png') }}" data-src="{{ url_for('custom_images', filename=record.image_filename) }}" alt="{{ record.image_description }}">
                                             </a>
                                         </div>
                                         <div class="position-absolute p-3 b-0 w-100 bg-shadow">
