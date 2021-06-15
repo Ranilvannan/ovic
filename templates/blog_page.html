@@ -26,7 +26,7 @@
                         <div class="my-3 text-muted small">
                             <!--author-->
                             <span class="d-none d-sm-inline">
-                            by <a class="fw-bold" href="../category/author.html">{{article.author_name}}</a>
+                            by <a class="fw-bold" href="#">{{article.author_name}}</a>
                             </span>
                             <!--date-->
                             <time class="ms-0 ms-sm-2 ms-md-3" datetime="2019-10-22">
@@ -56,7 +56,7 @@
                 <div class="media author-box py-3">
                     <div class="media-figure">
                         <a href="../category/author.html">
-                            <img class="avatar-lg avatar-rounded border img-fluid" src="../../assets/img/avatar/avatar7.png" alt="author">
+                            <img class="avatar-lg avatar-rounded border img-fluid" src="{{ url_for('custom_images', filename=article.author_image_filename) }}" alt="author">
                         </a>
                     </div>
                     <div class="ms-3 media-body">
@@ -87,14 +87,14 @@
                     </div>
                     <div class="row">
                         <div class="nav-slider-hover nav-inset-button nav-dots-top-right light-dots" data-flickity='{ "cellAlign": "left", "wrapAround": true, "adaptiveHeight": true, "prevNextButtons": true , "pageDots": true, "imagesLoaded": true }'>
-                            {% if related_articles %}
-                            {% for record in related_articles %}
+                            {% if article.related_blogs %}
+                            {% for record in article.related_blogs %}
                             <article class="col-12 col-sm-6 col-md-4 me-2">
                                 <div class="col-12 mb-3 mb-lg-4">
                                     <div class="card card-full hover-a">
                                         <div class="ratio_337-337 image-wrapper">
                                             <a href="single1.html">
-                                            <img class="img-fluid lazy" src="../../assets/img/assets/lazy-empty.png" data-src="../../assets/img/337x337/img1.jpg" alt="Image description">
+                                            <img class="img-fluid lazy" src="../../assets/img/assets/lazy-empty.png" data-src="{{ url_for('custom_images', filename=record.image_filename) }}" alt="{{ record.image_description }}">
                                             </a>
                                         </div>
                                         <div class="position-absolute p-3 b-0 w-100 bg-shadow">

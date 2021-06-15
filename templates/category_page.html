@@ -1,94 +1,91 @@
 {% extends "public/base.html" %}
 
 {% block head_metadata %}
-  <title>{{ header_info.title }}</title>
-  <meta name="description" content="{{ header_info.description }}">
-  <meta name="keywords" content="{{ header_info.keywords }}">
+<title>{{ header_info.title }}</title>
+<meta name="description" content="{{ header_info.description }}">
+<meta name="keywords" content="{{ header_info.keywords }}">
 {% endblock %}
-
 
 {% block body_content %}
 <!--Content start-->
 <main id="content">
-  <div class="pb-2 mb-2 mb-md-4">
-    <!--Container-->
+    <div class="pb-2 mb-2 mb-md-4">
+        <!--Container-->
+        <div class="container">
+            <div class="row">
+                <!--breadcrumb-->
+                <div class="col-12">
+                    <nav aria-label="breadcrumb">
+                        <ol class="breadcrumb u-breadcrumb pt-3 px-0 mb-0 bg-transparent small">
+                            <li class="breadcrumb-item"><a href="/">Home</a></li>
+                            <li class="breadcrumb-item active">{{ articles[0].category_name }}</li>
+                        </ol>
+                    </nav>
+                </div>
+                <!--end breadcrumb-->
+            </div>
+        </div>
+    </div>
     <div class="container">
-      <div class="row">
-        <!--breadcrumb-->
-        <div class="col-12">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb u-breadcrumb pt-3 px-0 mb-0 bg-transparent small">
-              <li class="breadcrumb-item"><a href="/">Home</a></li>
-              <li class="breadcrumb-item active">{{ articles[0].category_name }}</li>
-            </ol>
-          </nav>
-        </div>
-        <!--end breadcrumb-->
-      </div>
-    </div>
-  </div>
-  <div class="container">
-    <div class="row">
-      <!--left column-->
-      <div class="col-md-8">
-        <!-- block start -->
-        <div class="block-area">
-          <div class="border-bottom-last-0 first-pt-0">
-            <!--post start-->
-              {% for record in articles %}
-            <article class="card card-full hover-a py-4">
-              <div class="row">
-                <div class="col-sm-6 col-md-12 col-lg-6">
-                  <!--thumbnail-->
-                  <div class="ratio_360-202 image-wrapper">
-                    <a href="#">
-                      <img class="img-fluid lazy" src="{{ url_for('static', filename='assets/img/assets/lazy-empty.png') }}" data-src="{{ url_for('custom_images', filename=record.image_file) }}" alt="Image description">
-                    </a>
-                  </div>
-                </div>
-                <div class="col-sm-6 col-md-12 col-lg-6">
-                  <div class="card-body pt-3 pt-sm-0 pt-md-3 pt-lg-0">
-                    <!--title-->
-                    <h3 class="card-title h2 h3-sm h2-md">
-                      <a href="#">{{ record.name }}</a>
-                    </h3>
-                    <!--author and date-->
-                    <div class="card-text mb-2 text-muted small">
-                      <span class="d-none d-sm-inline me-1">
-                        <a class="fw-bold" href="{{ record.author_url }}">{{ record.author_name }}</a>
-                      </span>
-                      <time datetime="{{ record.date_us_format }}">{{ record.date_read_format }}</time>
+        <div class="row">
+            <!--left column-->
+            <div class="col-md-8">
+                <!-- block start -->
+                <div class="block-area">
+                    <div class="border-bottom-last-0 first-pt-0">
+                        <!--post start-->
+                        {% for record in articles %}
+                        <article class="card card-full hover-a py-4">
+                            <div class="row">
+                                <div class="col-sm-6 col-md-12 col-lg-6">
+                                    <!--thumbnail-->
+                                    <div class="ratio_360-202 image-wrapper">
+                                        <a href="{{ url_for('blog_page', category_url=record.category_url, blog_url=record.url) }}">
+                                        <img class="img-fluid lazy" src="{{ url_for('static', filename='assets/img/assets/lazy-empty.png') }}" data-src="{{ url_for('custom_images', filename=record.image_filename) }}" alt="{{ record.image_description }}">
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-md-12 col-lg-6">
+                                    <div class="card-body pt-3 pt-sm-0 pt-md-3 pt-lg-0">
+                                        <!--title-->
+                                        <h3 class="card-title h2 h3-sm h2-md">
+                                            <a href="{{ url_for('blog_page', category_url=record.category_url, blog_url=record.url) }}">{{ record.name }}</a>
+                                        </h3>
+                                        <!--author and date-->
+                                        <div class="card-text mb-2 text-muted small">
+                                            <span class="d-none d-sm-inline me-1">
+                                            <a class="fw-bold" href="{{ record.author_url }}">{{ record.author_name }}</a>
+                                            </span>
+                                            <time datetime="{{ record.date_us_format }}">{{ record.date_read_format }}</time>
+                                        </div>
+                                        <!--description-->
+                                        <p class="card-text">{{ record.preview }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        {% endfor %}
                     </div>
-                    <!--description-->
-                    <p class="card-text">{{ record.preview }}</p>
-                  </div>
                 </div>
-              </div>
-            </article>
-              {% endfor %}
-          </div>
+                <!-- End block -->
+                <!--Pagination-->
+                <div class="clearfix my-4">
+                    {{ pagination.links }}
+                </div>
+                <!--end pagination-->
+            </div>
+            <!--end content-->
+            <!-- start right column -->
+            <aside class="col-md-4 end-sidebar-lg">
+                <!--sticky-->
+                <div class="sticky">
+                </div>
+                <!--End sticky-->
+            </aside>
+            <!-- end right column -->
         </div>
-        <!-- End block -->
-
-        <!--Pagination-->
-        <div class="clearfix my-4">
-        {{ pagination.links }}
-        </div>
-        <!--end pagination-->
-      </div>
-      <!--end content-->
-
-      <!-- start right column -->
-      <aside class="col-md-4 end-sidebar-lg">
-        <!--sticky-->
-        <div class="sticky">
-
-        </div>
-        <!--End sticky-->
-      </aside>
-      <!-- end right column -->
     </div>
-  </div>
 </main>
 <!--End Content-->
 {% endblock %}
+

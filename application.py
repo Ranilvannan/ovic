@@ -111,7 +111,7 @@ def category_page(category_url=None):
         .skip(PER_PAGE*(page-1))\
         .limit(PER_PAGE)
 
-    header_info = {"title": "Title",
+    header_info = {"title": "Category Title",
                    "description": "Description",
                    "keywords": "Keywords"}
 
