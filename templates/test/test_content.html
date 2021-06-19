@@ -1,28 +1,277 @@
-{% for item in items %}
-    <article class="col-12 mb-2 mb-lg-6">
-        {% if item.gallery_ids %}
-        <div class="nav-slider-hover nav-inset-button nav-dots-top-right light-dots" data-flickity='{ "cellAlign": "left", "wrapAround": true, "adaptiveHeight": true, "prevNextButtons": true , "pageDots": true, "imagesLoaded": true }'>
-            <!-- item slider -->
-            {% for gallery in item.gallery_ids %}
-            <div class="col-12 col-sm-6 col-md-6 me-2">
-                <!--post start-->
-                <div class="col-12 mb-2 mb-lg-4">
-                    <div class="card card-full hover-a">
-                        <!--thumbnail-->
-                        <div class="ratio_360-202 image-wrapper">
-                            <a href="single1.html">
-                            <img class="img-fluid lazy" src="{{ url_for('static', filename='assets/img/assets/lazy-empty.png') }}" data-src="{{ url_for('custom_images', filename=gallery.image_file) }}" alt="Image description">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <!--end post -->
-            </div>
-            {% endfor %}
+<div class="container">
+        <div class="row">
+            <div class="col-12">
+<img src="{{ url_for('static', filename='test_img/socket_programming_in_python.jpeg') }}">
+     </div>
         </div>
-        {% endif %}
-        <h3><strong>{{ item.name }}</strong></h3>
-        <p>{{ item.content }}</p>
+</div>
+<h2>What is a socket programming?</h2>
+<p>
+    A socket is one endpoint of a two-way communication link between two programs running on the network.
+    A socket is bound to a port number so that the TCP layer can identify the application that data is
+    to be transferred.
+</p>
 
-    </article>
-{% endfor %}
+<p>
+    Sockets allow you to exchange information between processes on the same machine or across a network,
+    distribute work to the most efficient machine, and they easily allow access to centralized data.
+    Socket application program interfaces (APIs) are the network standard for TCP/IP.
+</p>
+
+<img src="{{ url_for('static', filename='test_img/socket_programming_in_python.jpeg') }}">
+
+<h2>Advantage of using sockets</h2>
+<ul>
+    <li>Provides flexible access to files and data over a network.</li>
+    <li>Sharing resources.</li>
+    <li>Security.</li>
+    <li>Speed.</li>
+    <li>Centralized software management.</li>
+    <li>Provide security like sending sensitive (password protected) files and programs on a network.</li>
+</ul>
+
+<h2>Example: A simple server-client program</h2>
+<p>
+    In this example the client try to connect the server on the port 12345 and establish the client-server
+    connection and send the acknowledgment from server that connection established.
+</p>
+
+
+<h3>Server side script</h3>
+
+<div>
+    <h2 class="daty">Title</h2>
+<pre>
+    <code class="language-python hljs">
+import socket # Import socket module
+s = socket.socket() # create a socket object
+print ("Socket successfully created")
+port = 12345
+
+s.bind(('', port))
+print ("socket binded to %s" %(port))
+
+# put the socket into listening mode
+s.listen(5)
+print ("socket is listening")
+
+# a forever loop until we interrupt it or
+# an error occurs
+while True:
+
+# Establish connection with client.
+c, addr = s.accept()
+print ('Got connection from', addr )
+
+# send a thank you message to the client.
+c.send('Thank you for connecting')
+
+# Close the connection with the client
+c.close()
+    </code>
+</pre>
+</div>
+<h3>Client side script</h3>
+
+<pre>
+    <code class="language-python" data-lang="python">
+import socket # Import socket module
+s = socket.socket() # Create a socket object
+port = 12345
+
+# connect to the server on local computer
+s.connect(('127.0.0.1', port))
+
+# receive data from the server
+print (s.recv(1024) )
+# close the connection
+s.close()
+    </code>
+</pre>
+
+<img>
+
+<h2>Example: Chatbots using python sockets</h2>
+
+<h3>Server side script</h3>
+<p>
+    The server side script will attempt to establish a socket and bind it to an IP address and port specified
+    by the user. This will open and receive connection requests, from the respective socket objects
+    to a list to keep track of active connections. Every time a user connects, a separate thread will be
+    created for that user. In each thread, the server awaits a message, and sends that message to other users
+    currently on the chat. If the server encounters an error while trying to receive a message from a particular
+    thread, it will exit that thread.
+</p>
+<div class="bd-callout bd-callout-warning">
+    <p>
+        Note: Check for firewall settings to open the specified port number
+    </p>
+</div>
+
+<pre>
+    <code class="language-python" data-lang="python">
+# Python program to implement server side of chat room.
+import socket
+import select
+import sys
+from thread import *
+
+"""The first argument AF_INET is the address domain of the
+socket. This is used when we have an Internet Domain with
+any two hosts The second argument is the type of socket.
+SOCK_STREAM means that data or characters are read in
+a continuous flow."""
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
+# checks whether sufficient arguments have been provided
+if len(sys.argv) != 3:
+    print ("Correct usage: script, IP address, port number")
+    exit()
+
+# takes the first argument from command prompt as IP address
+IP_address = str(sys.argv[1])
+
+# takes second argument from command prompt as port number
+Port = int(sys.argv[2])
+
+"""
+binds the server to an entered IP address and at the
+specified port number.
+The client must be aware of these parameters
+"""
+server.bind((IP_address, Port))
+
+"""
+listens for 100 active connections. This number can be
+increased as per convenience.
+"""
+server.listen(100)
+
+list_of_clients = []
+
+def clientthread(conn, addr):
+
+    # sends a message to the client whose user object is conn
+    conn.send("Welcome to this chatroom!")
+
+    while True:
+            try:
+                message = conn.recv(2048)
+                if message:
+
+                    """prints the message and address of the
+                    user who just sent the message on the server
+                    terminal"""
+                    print ("<" + addr[0] + "> " + message)
+
+                    # Calls broadcast function to send message to all
+                    message_to_send = "<" + addr[0] + "> " + message
+                    broadcast(message_to_send, conn)
+
+                else:
+                    """message may have no content if the connection
+                    is broken, in this case we remove the connection"""
+                    remove(conn)
+
+            except:
+                continue
+
+"""Using the below function, we broadcast the message to all
+clients who's object is not the same as the one sending
+the message """
+def broadcast(message, connection):
+    for clients in list_of_clients:
+        if clients!=connection:
+            try:
+                clients.send(message)
+            except:
+                clients.close()
+
+                # if the link is broken, we remove the client
+                remove(clients)
+
+"""The following function simply removes the object
+from the list that was created at the beginning of
+the program"""
+def remove(connection):
+    if connection in list_of_clients:
+        list_of_clients.remove(connection)
+
+while True:
+
+    """Accepts a connection request and stores two parameters,
+    conn which is a socket object for that user, and addr
+    which contains the IP address of the client that just
+    connected"""
+    conn, addr = server.accept()
+
+    """Maintains a list of clients for ease of broadcasting
+    a message to all available people in the chatroom"""
+    list_of_clients.append(conn)
+
+    # prints the address of the user that just connected
+    print (addr[0] + " connected")
+
+    # creates and individual thread for every user
+    # that connects
+    start_new_thread(clientthread,(conn,addr))
+
+conn.close()
+server.close()
+    </code>
+</pre>
+
+<h3>Client side script</h3>
+<p>
+    The client side script will simply attempt to access the server socket created at the specified IP
+    address and port. Once it connects, it will continuously check as to whether the input comes from
+    the server or from the client, and accordingly redirects output. If the input is from the server,
+    it displays the message on the terminal. If the input is from the user, it sends the message that the
+    users enters to the server for it to be broadcasted to other users.
+</p>
+<pre>
+    <code class="language-python" data-lang="python">
+# Python program to implement client side of chat room.
+import socket
+import select
+import sys
+
+server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+if len(sys.argv) != 3:
+    print ("Correct usage: script, IP address, port number")
+    exit()
+IP_address = str(sys.argv[1])
+Port = int(sys.argv[2])
+server.connect((IP_address, Port))
+
+while True:
+
+    # maintains a list of possible input streams
+    sockets_list = [sys.stdin, server]
+
+    """ There are two possible input situations. Either the
+    user wants to give manual input to send to other people,
+    or the server is sending a message to be printed on the
+    screen. Select returns from sockets_list, the stream that
+    is reader for input. So for example, if the server wants
+    to send a message, then the if condition will hold true
+    below.If the user wants to send a message, the else
+    condition will evaluate as true"""
+    read_sockets,write_socket, error_socket = select.select(sockets_list,[],[])
+
+    for socks in read_sockets:
+        if socks == server:
+            message = socks.recv(2048)
+            print (message)
+        else:
+            message = sys.stdin.readline()
+            server.send(message)
+            sys.stdout.write("<You>")
+            sys.stdout.write(message)
+            sys.stdout.flush()
+server.close()
+    </code>
+</pre>
+
+<img>

@@ -15,14 +15,14 @@ PER_PAGE = 5
 @app.route('/test')
 def test_page():
     data = {
-        "category_name": "Category Name",
-        "name": "Category Name",
-        "date_read_format": "Category Name",
-        "comments_count": "Category Name",
-        "views_count": "Category Name",
-        "author_name": "Category Name",
-        "author_email": "Category Name",
-        "author_description": "Category Name",
+        "category_name": "Python tutorial",
+        "name": "Socket programming using python",
+        "date_read_format": "23 Apr 2021",
+        "comments_count": "10",
+        "views_count": "10",
+        "author_name": "Ramesh Kumar",
+        "author_email": "test@test.com",
+        "author_description": "Programmer",
     }
     article = TObject(data)
     return render_template('test/test_page.html', article=article)

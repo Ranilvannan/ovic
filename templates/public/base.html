@@ -17,6 +17,7 @@
         <!--Styles-->
         <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/theme.css') }}">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+        {% block body_stylesheet %}{% endblock %}
         <!--Minify Styles-->
         <!-- <link rel="stylesheet" href="../../dist/css/bundle.min.css"> -->
     </head>
